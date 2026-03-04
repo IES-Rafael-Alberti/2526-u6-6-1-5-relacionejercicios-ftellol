@@ -53,3 +53,18 @@ class Gato(override val nombre: String, override val especie: String): Animal(no
     }
 }
 
+fun main() {
+    val animal1: Animal = Perro("Copito", "Chihuahua")
+    val animal2: Animal = Gato("Garfield", "Egipcio")
+
+    println("Perro")
+    animal1.hacerSonido()
+    animal1.moverse()
+    animal1.comer()
+    println()
+
+    println("Gato")
+    animal2.hacerSonido()
+    animal2.moverse()
+    animal2.comer()
+}
