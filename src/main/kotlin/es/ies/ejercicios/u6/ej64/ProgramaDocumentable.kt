@@ -80,6 +80,10 @@ open class Persona(
         println("[Persona:init] nombre=$nombre edad=$edad")
     }
 
+    /**
+     * Constructor secundario que inicializa solo el nombre.
+     * La edad se establece por defecto a 0.
+     */
     constructor(nombre: String) : this(nombre, edad = 0) {
         println("[Persona:secondary] constructor(nombre)")
     }
