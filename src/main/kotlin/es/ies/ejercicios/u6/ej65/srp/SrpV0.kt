@@ -13,33 +13,56 @@ import es.ies.ejercicios.u6.ej64.Resumible
  * - genera informe
  * - hace logs
  */
-class InformeAppServiceV0 {
-    fun ejecutar() {
-        println("[SRP:v0] Preparando datos...")
-        val items: List<Resumible> = listOf(
-            Persona(" Ana ", 20),
-            Alumno("Luis", 19, "1DAM"),
-            Persona("Marta", 18),
-        )
+class ProveedorDatos {
+    fun obtener(): List<Resumible> = listOf(
+        Persona(" Ana ", 20),
+        Alumno("Luis", 19, "1DAM"),
+        Persona("Marta", 18),
+    )
+}
 
-        println("[SRP:v0] Registrando personas...")
-        val registro = RegistroPersonas()
+class RegistroUsuarios {
+    private val registro = RegistroPersonas()
+
+    fun registrarTodos(items: List<Resumible>) {
         for (item in items) {
             if (item is Persona) registro.registrar(item)
         }
+    }
 
-        println("[SRP:v0] Generando informe Markdown...")
-        val informe = InformeMarkdown()
+    fun buscar(nombre: String): Persona? = registro.buscar(nombre)
+}
+
+class GenerarInforme {
+    private val informe = InformeMarkdown()
+
+    fun generar(titulo: String, items: List<Resumible>): String =
+        informe.generar(titulo, items)
+}
+
+class InformeAppServiceV1 {
+    private val proveedor = ProveedorDatos()
+    private val registro  = RegistroUsuarios()
+    private val informe   = GenerarInforme()
+
+    fun ejecutar() {
+        println("[SRP:v1] Preparando datos...")
+        val items = proveedor.obtener()
+
+        println("[SRP:v1] Registrando personas...")
+        registro.registrarTodos(items)
+
+        println("[SRP:v1] Generando informe Markdown...")
         val salida = informe.generar("Listado", items)
 
-        println("[SRP:v0] Resultado:")
+        println("[SRP:v1] Resultado:")
         println(salida)
 
-        println("[SRP:v0] Buscar 'ana' -> ${registro.buscar("ana")?.resumen()}")
+        println("[SRP:v1] Buscar 'ana' -> ${registro.buscar("ana")?.resumen()}")
     }
 }
 
 fun main() {
-    InformeAppServiceV0().ejecutar()
+    InformeAppServiceV1().ejecutar()
 }
 
